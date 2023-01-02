@@ -1,2 +1,2 @@
 # quotes-app
-Application to scraping data from quotestoscrape.com
+Application To Scraping Data From quotestoscrape.com
