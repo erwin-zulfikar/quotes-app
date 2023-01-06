@@ -7,6 +7,15 @@ from bs4 import BeautifulSoup
 url: str = "https://quotes.toscrape.com"
 
 
+def generate_format(filename: str, results: list):
+    df = pd.DataFrame(results)
+    if ".csv" or ".xlsx" not in filename:
+        df.to_csv(filename + ".csv", index=False)
+        df.to_excel(filename + ".xlsx", index=False)
+
+    print("Data Generated ke file CSV dan Excel")
+
+
 class Crawler(object):
     def __init__(self, url: str):
         self.url = url
@@ -74,15 +83,7 @@ class Crawler(object):
 
             return data_dict
 
-    def generate_format(self, filename: str, results: list):
-        df = pd.DataFrame(results)
-        if ".csv" or ".xlsx" not in filename:
-            df.to_csv(filename + ".csv", index=False)
-            df.to_excel(filename + ".xlsx", index=False)
-
-        print("Data Generated ke file CSV dan Excel")
-
-    def crawling(self):
+    def crawling(self) -> list[dict[str, str]]:
         results: list[dict[str, str]] = []
 
         quotes: list = self.get_quotes(url=url)
@@ -92,7 +93,9 @@ class Crawler(object):
             results.append(final_result)
 
         # olah data
-        self.generate_format(results=results, filename="reports")
+        generate_format(results=results, filename="reports")
+
+        return results
 
 
 if __name__ == '__main__':
